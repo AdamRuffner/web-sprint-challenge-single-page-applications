@@ -10,7 +10,7 @@ import Pizza from './components/Pizza'
 
 const App = () => {
   return (
-    <>
+    
       <div className='home'>
         <h1>Lambda Eats</h1>
         <p>Program your pizza!</p>
@@ -29,7 +29,7 @@ const App = () => {
           </Switch>
         </div>
       </div>
-    </>
+    
   );
 };
 export default App;

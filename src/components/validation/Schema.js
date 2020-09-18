@@ -1,15 +1,37 @@
 import * as yup from 'yup'
 
+
+
 export default yup.object().shape({
-    name: yup
-      .string()
-      .required("Name is required")
-      .min(2, "Name must be at least two characters"),
-    size: yup.string().oneOf(["Personal", "Small", "Medium", "Large"], "Size is required"),
+    size: yup
+        .string(),
     sauce: yup
-      .string()
-      .oneOf(
-        ["originalRed", "garlicRanch", "bbq", "alfredo"],
-        "Sauce is required"
-      ),
-  });
+        .string()
+        .oneOf(['bbq', 'alfredo', 'originalRed', 'garlicRanch'], 'sauce is required'),
+    pepperoni: yup
+        .boolean(),
+    sausage: yup
+        .boolean(),
+    onions: yup
+        .boolean(),
+    bacon: yup
+        .boolean(),
+    grilledChicken: yup
+        .boolean(),
+    spicyItalianSausage: yup
+        .boolean(),
+    greenPepper: yup
+        .boolean(),
+    tomatos: yup
+        .boolean(),
+    threeCheese: yup
+        .boolean(),
+    name: yup
+        .string()
+        .min(2, "Name must include 2 letters")
+        .required("Name is required"),
+    instructions: yup
+        .string()
+
+
+});

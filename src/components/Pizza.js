@@ -9,7 +9,7 @@ const initialFormValues = {
     name: '',
     specialInstructions: '',
     //checkbox and radio buttons
-    pepperroni: false,
+    pepperoni: false,
     sausage: false,
     bacon: false,
     spicyItalianSausage: false,
@@ -17,12 +17,9 @@ const initialFormValues = {
     onions: false,
     greenPepper: false,
     tomatos: false,
-    threeCheese: false,
-    originalRed: '',
-    garlicRanch: '',
-    bbq: '',
-    alfredo: '',
+    sauce: '',
     size: '',
+    instructions:''
 }
 
 const initialFormErrors = {
@@ -30,7 +27,7 @@ const initialFormErrors = {
     name: '',
     specialInstructions: '',
     //checkbox and radio buttons
-    pepperroni: false,
+    pepperoni: false,
     sausage: false,
     bacon: false,
     spicyItalianSausage: false,
@@ -44,6 +41,7 @@ const initialFormErrors = {
     bbq: '',
     alfredo: '',
     size: '',
+    instructions:'',
 }
 
 const initialUsers = []
@@ -55,75 +53,65 @@ export default function PizzaForm() {
     const [formErrors, setFormErrors] = useState(initialFormErrors)
     const [disabled, setDisabled] = useState(initialDisabled)
 
-    // const getUsers = () => {
-    //     axios.get('https://reqres.in/api/users')
-    //         .then(res => {
-    //             setUsers(res.data)
-    //         })
-    //         .catch(err => {
-    //             console.log(err)
-    //         })
-    // }
-
-    // const postNewUser = newUser => {
-    //     axios.post('https://reqres.in/api/users', newUser)
-    //         .then(res => {
-    //             setUsers([...users, res.data])
-    //             setFormValues(initialFormValues)
-    //         })
-    //         .catch(err => {
-    //             console.log(err)
-    //         })
-    //         .finally(() => {
-
-    //         })
-    // }
-
-    const validate = (name, value) => {
-        yup
-            .reach(schema, name)
+    
+                            
+        
+        
+        
+        
+        const validate = e => {
+            const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+            yup
+            .reach(schema, e.target.name)
             .validate(value)
             .then(valid => {
                 setFormErrors({
                     ...formErrors,
-                    [name]: ''
+                    [e.target.name]: ''
                 })
             })
+            
             .catch(err => {
                 setFormErrors({
                     ...formErrors,
-                    [name]: err.errors[0]
+                    [e.target.name]: err.errors[0]
                 });
             });
-    }
-
-    const inputChange = (name, value) => {
-        validate(name, value)
-        setFormValues({
-            ...formValues,
-            [name]: value
-        })
-    }
-
-    const formSubmit = e => {
-        e.preventDefault();
-        axios.post('https://reqres.in/api/users', formValues)
-        .then(res => {
-            const apiReturn = res.data
-            setUsers([...users, apiReturn])
-            setFormValues(formValues)
-        })
-    }
-    
-    useEffect(() => {
-        schema.isValid(formValues)
-        .then(valid => {
+        }
+        
+        useEffect(() => {
+            schema.isValid(formValues)
+            .then(valid => {
             setDisabled(!valid)
-        })
-    }, [formValues])
+            })
+            .catch(err =>  {
+                console.log(err)
+            })
+        }, [formValues])
 
-    return (
-        <div>
+        const inputChange = e => {
+            e.persist();
+            validate(e);
+            const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+            setFormValues({ ...formValues, [e.target.name]: value });
+        };
+        
+        const formSubmit = e => {
+            e.preventDefault();
+            axios
+            .post("https://reqres.in/api/users", formValues)
+            .then(response => {
+                const apiReturn = response.data
+                console.log(response.data)
+                setUsers([...users, apiReturn])
+                setFormValues(formValues)
+            })
+            .catch(err => console.log(err));
+        };
+        
+        
+        return (
+            <div>
             <form onSubmit={formSubmit}>
 
                 <label htmlFor='size'>
@@ -144,53 +132,64 @@ export default function PizzaForm() {
                 </label>
                 <br></br>
                 <div className='sauce' >
-                    <label htmlFor='sauce'>
+                <label htmlFor= 'sauces' >
                         <h2>Sauce</h2>
                 <p>Required</p>
                         Original Red
                         <input
-                    type='checkbox'
+                    type='radio'
+                    value='originalRed'
                     id='originalRed'
                     name='originalRed'
-                    checked={formValues.originalRed}
+                    checked={formValues.sauce === 'originalRed'}
                     onChange={inputChange}
                 />
+                
+                
                         Garlic Ranch
                         <input
-                    type='checkbox'
+                    type='radio'
+                    value='garlicRanch'
                     id='garlicRanch'
                     name='garlicRanch'
-                    checked={formValues.garlicRanch}
+                    checked={formValues.sauce === 'garlicRanch'}
                     onChange={inputChange}
                 />
+                
+                
                         bbq
                         <input
-                    type='checkbox'
+                    type='radio'
+                    value='bbq'
                     id='bbq'
                     name='bbq'
-                    checked={formValues.bbq}
+                    checked={formValues.sauce === 'bbq'}
                     onChange={inputChange}
                 />
+                
+                
                         alfredo:
                         <input
-                    type='checkbox'
+                    type='radio'
+                    value='alfredo'
                     name='alfredo'
                     id='alfredo'
-                    checked={formValues.alfredo}
+                    checked={formValues.sauce === 'alfredo'}
                     onChange={inputChange}
                 />
-                    </label>
+                
+                </label>
                     </div>
        
         <label htmlFor='toppings'>
             <h2>Toppings</h2>
             <p>required</p>
-            Pepporoni:
+            Pepperoni:
                         <input
                 type='checkbox'
-                name='pepporoni'
-                id='pepporoni'
-                checked={formValues.pepperroni}
+                name='pepperoni'
+                id='pepperoni'
+                checked={formValues.pepperoni}
                 onChange={inputChange}
             />
                         Sausage:
@@ -258,6 +257,42 @@ export default function PizzaForm() {
                 onChange={inputChange}
             />
             </label>
+            <div className ='instructions'>
+            <label htmlFor ='instructions'>
+
+            </label>
+            </div>
+            <br></br>
+            <div className="name-div">
+            <label htmlFor="name">
+                Who is this pizza for?
+                <br></br>
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="Must have at least 2 characters"
+                    value={formValues.name}
+                    onChange={inputChange}
+                />
+                
+               
+        </label>
+            </div>
+            <label htmlFor ='instructions'>
+            <h2>Special Instructions</h2>
+            <br></br>
+            <textarea 
+                name='instructions'
+                id='instructions'
+                placeholder='must have at least 3 characters'
+                value={formValues.instructions}
+                onChange={inputChange}
+            />
+            </label>
+            <div className ='submit'>
+                <button disabled={disabled}>Add To Order</button>
+            </div>
                 
             </form >
         </div >

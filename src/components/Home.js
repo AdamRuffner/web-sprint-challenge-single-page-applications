@@ -7,7 +7,7 @@ export default function Home(props) {
     return ( 
     <div className='home'>
         <button
-            class-name='order'
+            class-name='shop-button'
             onClick={() => history.push('/pizza')}
             >
                 Order Here!
