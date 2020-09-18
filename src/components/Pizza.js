@@ -36,10 +36,7 @@ const initialFormErrors = {
     greenPepper: false,
     tomatos: false,
     threeCheese: false,
-    originalRed: '',
-    garlicRanch: '',
-    bbq: '',
-    alfredo: '',
+    sauce:'',
     size: '',
     instructions:'',
 }
@@ -140,7 +137,7 @@ export default function PizzaForm() {
                     type='radio'
                     value='originalRed'
                     id='originalRed'
-                    name='originalRed'
+                    name='sauce'
                     checked={formValues.sauce === 'originalRed'}
                     onChange={inputChange}
                 />
@@ -151,7 +148,7 @@ export default function PizzaForm() {
                     type='radio'
                     value='garlicRanch'
                     id='garlicRanch'
-                    name='garlicRanch'
+                    name='sauce'
                     checked={formValues.sauce === 'garlicRanch'}
                     onChange={inputChange}
                 />
@@ -162,7 +159,7 @@ export default function PizzaForm() {
                     type='radio'
                     value='bbq'
                     id='bbq'
-                    name='bbq'
+                    name='sauce'
                     checked={formValues.sauce === 'bbq'}
                     onChange={inputChange}
                 />
@@ -172,7 +169,7 @@ export default function PizzaForm() {
                         <input
                     type='radio'
                     value='alfredo'
-                    name='alfredo'
+                    name='sauce'
                     id='alfredo'
                     checked={formValues.sauce === 'alfredo'}
                     onChange={inputChange}
